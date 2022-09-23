@@ -1,5 +1,7 @@
 package com.library.system.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +24,12 @@ public class StudentController {
 	private StudentService studentService;
 
 	@PostMapping("registeration")
-	public ResponseEntity<ApiRespone> studentRegister(@RequestBody StudentDto studentDto){
+	public ResponseEntity<ApiRespone> studentRegister(@Valid @RequestBody StudentDto studentDto){
 		return studentService.studentRegistration(studentDto);
 	}
 	
 	@PutMapping("update/{studentId}")
-	public ResponseEntity<ApiRespone> updateStudent(@RequestBody StudentDto studentDto ,@PathVariable int studentId){
+	public ResponseEntity<ApiRespone> updateStudent(@Valid @RequestBody StudentDto studentDto ,@PathVariable int studentId){
 		return studentService.updateStudent(studentDto, studentId);
 	}
 	

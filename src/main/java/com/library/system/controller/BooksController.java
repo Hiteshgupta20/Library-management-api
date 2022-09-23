@@ -1,5 +1,7 @@
 package com.library.system.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +24,12 @@ public class BooksController {
 	private BooksService booksService;
 	
 	@PostMapping("addBook")
-	public ResponseEntity<ApiRespone> addBook(@RequestBody BooksDto booksDto){
+	public ResponseEntity<ApiRespone> addBook(@Valid @RequestBody BooksDto booksDto){
 		return booksService.addBook(booksDto);
 	}
 	
 	@PutMapping("updateBook/{bookId}")
-	public ResponseEntity<ApiRespone> updateBook(@RequestBody BooksDto booksDto, @PathVariable int bookId){
+	public ResponseEntity<ApiRespone> updateBook(@Valid @RequestBody BooksDto booksDto, @PathVariable int bookId){
 		return booksService.updateBook(booksDto, bookId);
 	}
 	
