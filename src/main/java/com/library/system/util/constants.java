@@ -8,7 +8,9 @@ public class constants {
 		STUDENT_LIST(200,"Student Fetched Successfully"),
 		ADD_BOOK(200,"Book Added Succesfully"),
 		UPDATE_BOOK(200,"Book Updated Successfully"),
-		BOOKS_LIST(200,"Books Fetched Successfully");
+		BOOKS_LIST(200,"Books Fetched Successfully"),
+		ISSUED_BOOK(200,"Book Issues Successfully"),
+		BOOK_NOT_AVAILABEL(400,"Book Not Availabel");
 
 
 		
