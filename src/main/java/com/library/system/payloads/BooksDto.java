@@ -1,7 +1,6 @@
 package com.library.system.payloads;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -26,8 +25,8 @@ public class BooksDto {
 	
 	@NotEmpty(message = "Book Author cannot be blank")
 	private String bookAuthor;
-	private LocalDate insertDate;
-	private LocalDate lastModifiedDate;
-	private LocalDate issuedDate;
-	private LocalDate returnDate;
+	private LocalDateTime insertDate;
+	private LocalDateTime lastModifiedDate;
+	private LocalDateTime issuedDate;
+	private LocalDateTime returnDate;
 }

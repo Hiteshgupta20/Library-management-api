@@ -47,4 +47,9 @@ public class BooksController {
 	public ResponseEntity<ApiRespone> issueBook(@PathVariable int bookId, @PathVariable int studentId){
 		return booksService.issueBook(bookId,studentId);
 	}
+	
+	@PostMapping("return/{bookId}/student/{studentId}")
+	public ResponseEntity<ApiRespone> returnBook(@PathVariable int bookId, @PathVariable int studentId){
+		return booksService.returnBook(bookId,studentId);
+	}
 }

@@ -13,6 +13,7 @@ import com.library.system.entities.Student;
 import com.library.system.exceptions.ResourceNotFoundException;
 import com.library.system.payloads.ApiRespone;
 import com.library.system.payloads.StudentDto;
+import com.library.system.payloads.StudentsDataDto;
 import com.library.system.repositories.StudentRepo;
 import com.library.system.service.StudentService;
 import com.library.system.util.constants.STUDENT;
@@ -52,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public ResponseEntity<ApiRespone> getAllStudents() {
 		List<Student> student = studentRepo.findAll();
-		List<Student> getAllStudents = student.stream().map(getStudent -> modelMapper.map(getStudent, Student.class)).collect(Collectors.toList());
+		List<StudentsDataDto> getAllStudents = student.stream().map(getStudent -> modelMapper.map(getStudent, StudentsDataDto.class)).collect(Collectors.toList());
 		return ApiRespone.success(STUDENT.STUDENT_LIST.getCode(), STUDENT.STUDENT_LIST.getMessage(), getAllStudents);
 	}
 
@@ -60,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
 	public ResponseEntity<ApiRespone> getStudentById(int studentId) {
 		Student student = studentRepo.findById(studentId)
 				.orElseThrow(() -> new ResourceNotFoundException("Student", "ID", studentId));
-		return ApiRespone.success(STUDENT.STUDENT_LIST.getCode(), STUDENT.STUDENT_LIST.getMessage(), student);
+		return ApiRespone.success(STUDENT.STUDENT_LIST.getCode(), STUDENT.STUDENT_LIST.getMessage(), modelMapper.map(student, StudentsDataDto.class));
 	}
 
 }

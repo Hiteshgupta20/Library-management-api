@@ -23,7 +23,7 @@ public interface BooksService {
 	ResponseEntity<ApiRespone> issueBook(int bookId, int studentId);
 	
 	//Return Book
-	ResponseEntity<ApiRespone> returnBook(int bookId);
+	ResponseEntity<ApiRespone> returnBook(int bookId,int studentId);
 	
 
 }

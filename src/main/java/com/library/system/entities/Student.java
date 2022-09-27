@@ -38,7 +38,6 @@ public class Student {
 	private String email;
 	private Date resgistrationDate;
 	
-	@OneToMany(mappedBy = "student",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Books> books = new ArrayList<>();
-
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<ReturnBook> returnBook = new ArrayList<>();
 }

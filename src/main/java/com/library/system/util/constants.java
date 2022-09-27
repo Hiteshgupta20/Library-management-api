@@ -9,7 +9,8 @@ public class constants {
 		ADD_BOOK(200,"Book Added Succesfully"),
 		UPDATE_BOOK(200,"Book Updated Successfully"),
 		BOOKS_LIST(200,"Books Fetched Successfully"),
-		ISSUED_BOOK(200,"Book Issues Successfully"),
+		ISSUED_BOOK(200,"Book Issued Successfully"),
+		RETURN_BOOK(200,"Book Returned Successfully"),
 		BOOK_NOT_AVAILABEL(400,"Book Not Availabel");
 
 
