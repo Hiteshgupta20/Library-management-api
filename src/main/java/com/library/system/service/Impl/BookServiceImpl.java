@@ -1,13 +1,25 @@
 package com.library.system.service.Impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.library.system.entities.Books;
 import com.library.system.entities.ReturnBook;
@@ -38,6 +50,9 @@ public class BookServiceImpl implements BooksService {
 
 	@Autowired
 	private ReturnBookRepo returnBookRepo;
+	
+	@Value("${Books.upload.filepath}")
+	private String FilePath;
 
 	@Override
 	public ResponseEntity<ApiRespone> addBook(BooksDto booksDto) {
@@ -131,5 +146,84 @@ public class BookServiceImpl implements BooksService {
 		return ApiRespone.success(STUDENT.BOOK_NOT_AVAILABEL.getCode(), STUDENT.BOOK_NOT_AVAILABEL.getMessage(),
 				modelMapper.map(null, ReturnBookDTO.class));
 	}
+	@Override
+	public ResponseEntity<ApiRespone> showAvailabelBook() {
+		List<ReturnBook> returnBook = returnBookRepo.findByisBookIssued(false);
+		if(Objects.isNull(returnBook)) return ApiRespone.failure(STUDENT.BOOK_NOT_AVAILABEL.getCode(), STUDENT.BOOK_NOT_AVAILABEL.getMessage(), null);
+		
+		return ApiRespone.success(STUDENT.AVAILABEL_BOOK.getCode(), STUDENT.AVAILABEL_BOOK.getMessage(), returnBook);
+	}
+	
+	@Override
+	public ResponseEntity<ApiRespone> uploadFile(MultipartFile file){
+		String contentType = file.getContentType();
+		if(contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+			
+			List<Student> students = new ArrayList<>();
+
+			try {
+				File src=new File(FilePath + file.getOriginalFilename());
+				System.err.println("File path "+ src);
+				src.createNewFile();
+				FileOutputStream fileOutputStream = new FileOutputStream(src);
+				fileOutputStream.write(file.getBytes());
+				fileOutputStream.close();
+				
+				FileInputStream fileInputStream = new FileInputStream(src);
+				XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+				XSSFSheet sheet = workbook.getSheet("Sheet1");
+				
+				int rowNumber = 0;
+				Iterator<Row> iterator = sheet.iterator();
+				while(iterator.hasNext()) {
+					Row row = iterator.next();
+					if(rowNumber ==0) {
+						rowNumber++;
+						continue;
+					}
+					Student bulkStudent = new Student();
+					int cellNum =1;
+					Iterator<Cell> cells = row.iterator();
+					while(cells.hasNext()) {
+						Cell cell = cells.next();
+						switch (cellNum) {
+						case 1:
+							bulkStudent.setStudentName(cell.getStringCellValue());
+							break;
+						case 2:
+							bulkStudent.setCourse(cell.getStringCellValue());
+							break;
+						case 3:
+							bulkStudent.setMsisdn((long) cell.getNumericCellValue());
+							break;
+						case 4:
+							bulkStudent.setEmail(cell.getStringCellValue());
+							break;
+						case 5:
+							bulkStudent.setPassword(cell.getStringCellValue());
+							break;
+						default:
+							break;
+						}
+						bulkStudent.setResgistrationDate(LocalDateTime.now());
+						cellNum++;
+					}
+					students.add(bulkStudent);
+				}
+				
+				workbook.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(students != null) {
+				List<Student> bulkStudents = studentRepo.saveAll(students);
+			return ApiRespone.success(STUDENT.BULK_STUDENT_CREATION.getCode(), STUDENT.BULK_STUDENT_CREATION.getMessage(), bulkStudents);
+			}
+			
+		}
+		return ApiRespone.failure(STUDENT.FILE_FORMAT.getCode(), STUDENT.FILE_FORMAT.getMessage(), null);
+		
+	}
+	
 
 }

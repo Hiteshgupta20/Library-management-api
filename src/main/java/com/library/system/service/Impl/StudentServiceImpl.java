@@ -1,5 +1,6 @@
 package com.library.system.service.Impl;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public ResponseEntity<ApiRespone> studentRegistration(StudentDto studentDto) {
 		Student student = modelMapper.map(studentDto, Student.class);
-		student.setResgistrationDate(new Date());
+		student.setResgistrationDate(LocalDateTime.now());
 		Student registeredStudent = studentRepo.save(student);
 		return ApiRespone.success(STUDENT.STUDENT_REGISTRATION.getCode(), STUDENT.STUDENT_REGISTRATION.getMessage(),
 				modelMapper.map(registeredStudent, StudentDto.class));

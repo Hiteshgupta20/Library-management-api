@@ -1,5 +1,6 @@
 package com.library.system.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class Student {
 	private String password;
 	private long msisdn;
 	private String email;
-	private Date resgistrationDate;
+	private LocalDateTime resgistrationDate;
 	
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ReturnBook> returnBook = new ArrayList<>();

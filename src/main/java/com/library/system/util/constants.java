@@ -11,7 +11,10 @@ public class constants {
 		BOOKS_LIST(200,"Books Fetched Successfully"),
 		ISSUED_BOOK(200,"Book Issued Successfully"),
 		RETURN_BOOK(200,"Book Returned Successfully"),
-		BOOK_NOT_AVAILABEL(400,"Book Not Availabel");
+		BOOK_NOT_AVAILABEL(400,"Book Not Availabel"),
+		AVAILABEL_BOOK(200,"Books Availabel"),
+		FILE_FORMAT(400,"Only xlsx file allowed"),
+		BULK_STUDENT_CREATION(200,"File Uploaded Successfully");
 
 
 		

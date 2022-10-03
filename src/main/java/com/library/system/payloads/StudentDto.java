@@ -1,5 +1,6 @@
 package com.library.system.payloads;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
@@ -28,5 +29,5 @@ public class StudentDto {
 	
 	@Email(message = "Invalid Email")
 	private String email;
-	private Date resgistrationDate;
+	private LocalDateTime resgistrationDate;
 }
